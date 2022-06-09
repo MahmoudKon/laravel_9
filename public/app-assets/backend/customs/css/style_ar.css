@@ -1,0 +1,9 @@
+.dropdown-language .dropdown-menu {
+    width: 155px;
+    right: -100px;
+}
+
+.copy::after {
+    right: unset;
+    left: 0;
+}

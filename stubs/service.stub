@@ -1,0 +1,22 @@
+<?php
+
+namespace {{ namespace }};
+
+use Exception;
+use Illuminate\Support\Facades\DB;
+
+class {{ class }} {
+
+    public function handle($request, $id = null)
+    {
+        try {
+            DB::beginTransaction();
+                // Code
+            DB::commit();
+
+            return 0;
+        } catch (Exception $e) {
+            return $e->getMessage();
+        }
+    }
+}
