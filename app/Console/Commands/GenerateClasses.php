@@ -34,59 +34,64 @@ class GenerateClasses extends Command
     {
         $model = ucfirst($this->argument('model'));
 
-        if (file_exists("App\Models\{$model}.php")) {
-            echo "model class {$model} already exists!\n";
+        if (file_exists("app/Models/{$model}.php")) {
+            $this->error("model class {$model} already exists!");
         } else {
             Artisan::call("make:model $model");
-            echo "model class {$model} created successfully!\n";
+            $this->info("model class<options=bold> {$model}.php </>created successfully!");
         }
 
-        if (file_exists("App\Http\Controllers\Backend\{$model}Controller.php")) {
-            echo "controller class {$model}Controller already exists!\n";
+        if (file_exists("app/Http/Controllers/Backend/{$model}Controller.php")) {
+            $this->error("controller class {$model}Controller already exists!");
         } else {
             Artisan::call("make:controller Backend/{$model}Controller --model=$model --type=custom");
-            echo "controller class {$model}Controller created successfully!\n";
+            $this->info("controller class<options=bold> {$model}Controller.php </>created successfully!");
         }
 
-        if (file_exists("App\Http\Services\{$model}Service.php")) {
-            echo "service class {$model}Service already exists!\n";
+        if (file_exists("app/Http/Services/{$model}Service.php")) {
+            $this->error("service class {$model}Service already exists!");
         } else {
             Artisan::call("make:service {$model}Service");
-            echo "service class {$model}Service created successfully!\n";
+            $this->info("service class<options=bold> {$model}Service.php </>created successfully!");
         }
 
         Artisan::call("make:migration ".$this->getMigrationName($model));
-        echo "migration class ".$this->getMigrationName($model)." created successfully!\n";
+        $this->info("migration class<options=bold> ".$this->getMigrationName($model).".php </>created successfully!");
 
-        if (file_exists("App\DataTables\{$model}DataTable.php")) {
-            echo "datatable class {$model}Datatable already exists!\n";
+        if (file_exists("app/DataTables/{$model}DataTable.php")) {
+            $this->error("datatable class {$model}Datatable already exists!");
         } else {
             Artisan::call("datatables:make $model");
-            echo "datatable class {$model}Datatable created successfully!\n";
+            $this->info("datatable class<options=bold> {$model}Datatable.php </>created successfully!");
         }
 
-        if (file_exists("App\Observers\{$model}Observer.php")) {
-            echo "observe class {$model}Observer already exists!\n";
+        if (file_exists("app/Observers/{$model}Observer.php")) {
+            $this->error("observe class {$model}Observer already exists!");
         } else {
             Artisan::call("make:observer {$model}Observer --model=$model");
-            echo "observe class {$model}Observer created successfully!\n";
+            $this->info("observe class<options=bold> {$model}Observer.php </>created successfully!");
         }
 
-        if (file_exists("App\Requests\{$model}Request.php")) {
-            echo "request class {$model}Request already exists!\n";
+        if (file_exists("app/Http/Requests/{$model}Request.php")) {
+            $this->error("request class {$model}Request already exists!");
         } else {
             Artisan::call("make:request ".$model."Request");
-            echo "request class {$model}Request created successfully!\n";
+            $this->info("request class<options=bold> {$model}Request.php </>created successfully!");
         }
 
-        $view_path = "backend.{$this->getPluralName($model)}.form";
-        Artisan::call("make:view $view_path");
-        echo "request class $view_path created successfully!\n";
+        $view_path = "backend/{$this->getPluralName($model)}/form";
+        if (file_exists(resource_path("views/$view_path.blade.php"))) {
+            $this->error("view blade {$view_path} already exists!");
+        } else {
+            Artisan::call("make:view $view_path");
+            $this->info("View blade<options=bold> {$view_path}.blade.php </>created successfully!");
+        }
+
+
 
         $this->createRoutes($model);
-        echo "request class {$model}Request created successfully!\n";
 
-        echo "all classes genrated successfully!\n";
+        $this->info("<options=bold>All classes genrated successfully!</>");
     }
 
     protected function getMigrationName($model)
@@ -113,7 +118,7 @@ class GenerateClasses extends Command
         $controller   = "{$model}Controller";
         $model_pram   = strtolower($model);
         $model        = Str::plural(strtolower($model));
-        $namespace    = "App\Http\Controllers\Backend";
+        $namespace    = "app/Http/Controllers\Backend";
         $middleware   = "web,localeSessionRedirect,localizationRedirect,localeViewPath,auth";
         $ROUTE_PREFIX = str_replace('.', '/', ROUTE_PREFIX);
         $prefix       = "/$ROUTE_PREFIX";
@@ -182,6 +187,13 @@ class GenerateClasses extends Command
             Permission::firstOrCreate(['name' => $row->permissionName(), 'guard_name' => 'web']);
         }
 
+        $this->info('<options=bold>Routes </>inserted in database successfully!');
+        $this->warn('*******************************************************************************************');
+        $this->warn('*******************************************************************************************');
+        $this->warn('*** please check your route file, to add a routes about this class like laravel syntax! ***');
+        $this->warn('*******************************************************************************************');
+        $this->warn('*******************************************************************************************');
+
         $this->createMenu($model);
     }
 
@@ -222,5 +234,6 @@ class GenerateClasses extends Command
             'icon' => "fa fa-plus",
             'parent_id' => $parent->id
         ]);
+        $this->info('<options=bold>Menu </>inserted in database successfully!');
     }
 }

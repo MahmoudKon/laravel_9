@@ -51,6 +51,8 @@ class CreateView extends Command
         }
 
         File::put($path, $this->appendText());
+
+        $this->line('<bg=green;fg=white;options=bold>View</> Created Successfully!');
     }
 
     /**
