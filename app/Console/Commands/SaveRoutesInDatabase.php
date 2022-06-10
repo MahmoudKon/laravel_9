@@ -66,6 +66,5 @@ class SaveRoutesInDatabase extends Command
 
             Permission::firstOrCreate(['name' => $route->permissionName(), 'guard_name' => 'web']);
         }
-        $this->line('<bg=green;fg=white;options=bold>Routes</> Saved Successfully!');
     }
 }
