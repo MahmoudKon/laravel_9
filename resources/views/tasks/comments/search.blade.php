@@ -22,7 +22,7 @@
             </div>
 
             <div class="col-md-12">
-                {{-- START USER --}}
+                {{-- START CATEGORIES --}}
                 <div class="form-group">
                     <label>Select Category</label>
                     <select class="select2 form-control" multiple name="category_id[]" id="categories">
@@ -33,16 +33,34 @@
                         @endforeach
                     </select>
                 </div>
-                {{-- END USER --}}
+                {{-- END CATEGORIES --}}
             </div>
 
             <div class="col-md-12">
-                {{-- START USER --}}
+                {{-- START POSTS --}}
                 <div class="form-group">
                     <label>Select Post</label>
                     <select class="select2 form-control" multiple name="post_id[]" id="posts"></select>
                 </div>
-                {{-- END USER --}}
+                {{-- END POSTS --}}
+            </div>
+
+            <div class="col-md-12">
+                {{-- START START DATE --}}
+                <div class="form-group">
+                    <label>Select Start Date</label>
+                    <input type="date" class="form-control" name="start_date">
+                </div>
+                {{-- END START DATE --}}
+            </div>
+
+            <div class="col-md-12">
+                {{-- START START DATE --}}
+                <div class="form-group">
+                    <label>Select End Date</label>
+                    <input type="date" class="form-control" name="end_date">
+                </div>
+                {{-- END START DATE --}}
             </div>
         </div>
     </div>

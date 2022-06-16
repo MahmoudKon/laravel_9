@@ -60,10 +60,10 @@ class TaskCommentController extends TaskController
             $query .= " WHERE DATE(`task_comments`.`created_at`) BETWEEN '" . request()->start_date . "' AND '". request()->end_date ."' AND";
 
         if (request()->start_date && !request()->end_date)
-            $query .= " WHERE `task_comments`.`created_at` = '" . request()->start_date ."' AND";
+            $query .= " WHERE DATE(`task_comments`.`created_at`) = '" . request()->start_date ."' AND";
 
         if (!request()->start_date && request()->end_date)
-            $query .= " WHERE `task_comments`.`created_at` = '" . request()->end_date ."'";
+            $query .= " WHERE DATE(`task_comments`.`created_at`) = '" . request()->end_date ."'";
 
         $query = str_replace('AND WHERE ', ' AND ', $query);
         $query = $count = rtrim($query, 'AND');
