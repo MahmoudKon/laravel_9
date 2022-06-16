@@ -27,39 +27,47 @@ class CheckMiddleWare
         // get the route object
         $route = request()->route();
 
-        // route details
+        /**
+         * route details EX:
+         * $action = [
+         *      'uri' => 'en/dashboard/users',
+         *      'controller' => 'App\Http\Controllers\Backend\UserController@index',
+         *      'as'         => 'dashboard.users.index',
+         *      'namespace'  => 'App\Http\Controllers\Backend',
+         *      'prefix      => '/en/dashboard',
+         *  ];
+         *
+         *  */
         $action = $route->getAction();
 
+        //  Check if the route is in the menu table
         $menu = Menu::where('route', str_replace(ROUTE_PREFIX, '', $action['as']))->first();
+        // If the route is in the menu table and it visible is false, then redirect to error page
+        if ($menu && ! $menu->visible) abort(503, 'This page is closed because it is under maintenance!');
 
-        if ($menu && ! $menu->visible) abort(404, 'This page is closed because it is under maintenance!');
-
-        // controller namespace with his method
-        $full_controller_path = explode('@', $action['controller']);
+        // controller namespace with his function
+        [$controller, $function] = explode('@', $action['controller']);
 
         // the only namespace
         $namespace = $action['namespace'];
 
         // get the only controller name
-        $controller = trim(str_replace($namespace, '', $full_controller_path[0]), '\\');
-
-        // get controller method name
-        $function = $full_controller_path[1] ?? '';
+        $controller = trim(str_replace($namespace, '', $controller), '\\'); // App\Http\Controllers\Backend\UserController => UserController
 
         // get route methods in string
-        $method = implode(',', $route->methods);
+        $method = implode(',', $route->methods); // ['GET', 'BATCH'] => 'GET,BATCH'
 
         // get route prefix
-        $prefix = $action['prefix'];
+        $prefix = $action['prefix']; // ex: /en/dashboard
 
         // get url without prefix
-        $uri = str_replace($prefix, 'dashboard', $route->uri);
+        $uri = str_replace($prefix, ROUTE_PREFIX_WITHOUT_DOT, $route->uri); // remove prefex from  en/dashboard/users => dashboard/users
 
         // get the route from database
         // en/dashboard/users
         $route = Route::where([
             'uri'        => $uri, // dashboard/users
-            'method'     => $method, // get
+            'method'     => $method, // get,batch
             'controller' => $controller, // UserController
             'func'       => $function // index
         ])->first();
@@ -72,17 +80,9 @@ class CheckMiddleWare
 
         if ($auth_user->hasPermissionTo($route->permissionName())) return $next($request);
 
-        // get all user roles id in array
-        $roles_id = $auth_user->roles()->pluck('id')->toArray();
-
-        // get the count of rows for the current route with user roles
-        $count = $route->roles()->whereIn('role_id', $roles_id)->count();
-
-        // check count not equal 0 then return the next page.
-        if ($count) return $next($request);
-
         // here the user not have permissions to access this page
-        if ($request->ajax()) return response()->json(['message' => 'You do not have permission to access this page!', 'title' => 'ROLES'], 403);
+        if ($request->ajax())
+            return response()->json(['message' => 'You do not have permission to access this page!', 'title' => 'ROLES'], 403);
         abort(403, 'You do not have permission to access this page!');
     }
 }

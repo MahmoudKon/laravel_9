@@ -28,6 +28,7 @@ return new class extends Migration
             $table->unsignedBigInteger('salary_per_monthly')->default(0);
             $table->unsignedSmallInteger('insurance_deduction')->default(0);
             $table->timestamp('email_verified_at')->nullable();
+            $table->text('mobile_token')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

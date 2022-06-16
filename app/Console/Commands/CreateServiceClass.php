@@ -7,12 +7,12 @@ use Symfony\Component\Console\Input\InputArgument;
 
 class CreateServiceClass extends GeneratorCommand
 {
-    /**
+/**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'make:service {name}';
+    protected $signature = 'make:service {name} {model?}';
 
     /**
      * The console command description.
@@ -37,34 +37,58 @@ class CreateServiceClass extends GeneratorCommand
         return $rootNamespace . '\Http\Services';
     }
 
-    protected function getArguments()
+    public function handle()
     {
-        return [
-            ['service', InputArgument::REQUIRED, 'The name and root of the file.'],
-            ['model', InputArgument::REQUIRED, 'The name and root of the model class targeted.'],
-        ];
-    }
-
-    protected function buildModelReplacements(array $replace)
-    {
-        $modelClass = $this->parseModel($this->option('model'));
-
-        if (! class_exists($modelClass)) {
-            if ($this->confirm("A {$modelClass} model does not exist. Do you want to generate it?", true)) {
-                $this->call('make:model', ['name' => $modelClass]);
-            }
+        if ($this->isReservedName($this->getNameInput())) {
+            $this->error('The name "'.$this->getNameInput().'" is reserved by PHP.');
+            return false;
         }
 
-        return array_merge($replace, [
-            'DummyFullModelClass' => $modelClass,
-            '{{ namespacedModel }}' => $modelClass,
-            '{{namespacedModel}}' => $modelClass,
-            'DummyModelClass' => class_basename($modelClass),
-            '{{ model }}' => class_basename($modelClass),
-            '{{model}}' => class_basename($modelClass),
-            'DummyModelVariable' => lcfirst(class_basename($modelClass)),
-            '{{ modelVariable }}' => lcfirst(class_basename($modelClass)),
-            '{{modelVariable}}' => lcfirst(class_basename($modelClass)),
-        ]);
+        $name = $this->qualifyClass($this->getNameInput());
+        $model = $this->argument('model')
+                    ? $this->qualifyClass(trim($this->argument('model')))
+                    : $this->qualifyModel($this->getNameInput());
+
+
+        $path = $this->getPath($name);
+
+        if ($this->alreadyExists($this->getNameInput())) {
+            $this->error($this->type.' already exists!');
+            return false;
+        }
+
+        $this->makeDirectory($path);
+        $this->files->put($path, $this->getSourceFile($name, $model));
+        $this->info($this->type.' created successfully.');
+
+        if (in_array(CreatesMatchingTest::class, class_uses_recursive($this))) {
+            $this->handleTestCreation($path);
+        }
+    }
+
+    private function getSourceFile($class, $model)
+    {
+        $service = ucwords($this->getNameInput());
+        $service = stripos($service, 'Service') !== false ? $service : $service . 'Service';
+        $vars = [
+            '{{ namespace }}' => $class,
+            '{{ class }}' => $service,
+            '{{ modelNamespace }}' => $model,
+            '{{ model }}' => last(explode('\\', $model)),
+        ];
+
+        return $this->getStubContent($this->getStub(), $vars);
+    }
+
+    private function getStubContent($stub, $stub_vars = [])
+    {
+        $content  = file_get_contents($stub);
+
+        foreach ($stub_vars as $name => $value)
+        {
+            $content = str_replace($name, $value, $content);
+        }
+
+        return $content;
     }
 }

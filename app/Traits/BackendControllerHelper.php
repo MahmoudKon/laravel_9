@@ -122,7 +122,7 @@ trait BackendControllerHelper
     {
         toast($message, 'success');
         $message = $message ?? $this->getModelName()." Created Successfully!";
-        $goto = $redirect ?? routeHelper($this->getModelName(true, true).'.index');
+        $goto = $redirect ?? routeHelper(str_replace(' ', '_', $this->getModelName(true, true)).'.index');
 
         if ($this->full_page_ajax || ($this->use_form_ajax && $this->use_button_ajax))
             if ($redirect) {
@@ -132,8 +132,9 @@ trait BackendControllerHelper
         else {
             if ($this->use_form_ajax)
                 return response()->json(['redirect' => $goto]);
-            else
-                return redirect($redirect);
+            else {
+                return redirect($goto);
+            }
         }
     }
 

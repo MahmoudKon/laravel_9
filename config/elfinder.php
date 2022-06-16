@@ -2,6 +2,11 @@
 
 return array(
 
+    /**
+     *      Github link
+     *      https://github.com/barryvdh/laravel-elfinder#elfinder-package-for-laravel
+    **/
+
     /*
     |--------------------------------------------------------------------------
     | Upload dir

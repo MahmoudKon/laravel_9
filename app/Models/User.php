@@ -34,6 +34,7 @@ class User extends Authenticatable
         'insurance_deduction',
         'email_verified_at',
         'remember_token',
+        'mobile_token'
     ];
 
     /**

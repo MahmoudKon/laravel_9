@@ -15,6 +15,7 @@ return [
 
     // IMAGE CROPPER
     'image-cropper' => 'إقتصاص الصور',
+    'image-quality' => 'جودة الصورة',
 
     // FILE MANAGER
     'file-manager' => 'مدير الملفات',

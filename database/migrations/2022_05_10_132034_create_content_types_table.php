@@ -17,6 +17,7 @@ return new class extends Migration
             $table->engine = "InnoDB";
             $table->id();
             $table->string('name');
+            $table->boolean('visible_to_content')->default(false);
         });
     }
 

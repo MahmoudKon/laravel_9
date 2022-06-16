@@ -24,7 +24,7 @@ class AggregatorRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => "required|string|unique:aggregators,title,".$this->id,
+            'title' => "required|string|unique:aggregators,title,".request()->route('aggregator'),
             'ratio' => "nullable||numeric|between:0,0.99"
         ];
     }

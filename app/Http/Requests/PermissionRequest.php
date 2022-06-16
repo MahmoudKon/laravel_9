@@ -24,7 +24,7 @@ class PermissionRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|unique:permissions,name,'.$this->id,
+            'name' => 'required|unique:permissions,name,'.request()->route('permission'),
             'roles' => 'nullable|array|min:1',
             'roles.*' => 'required|exists:roles,id'
         ];

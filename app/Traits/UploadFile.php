@@ -13,10 +13,12 @@ trait UploadFile
     {
         $path = $this->checkFolderIsExists($folder);
         $name = $file->hashName();
-        Image::make($file)->resize($width, $height)->qu->save("$path{$name}");
-        return $get_full_path ? "$path/$name" : $name;
+        if ($width != null && $height != null)
+            Image::make($file)->resize($width, $height)->save("$path{$name}");
+        else
+            $file->move($path, $name);
+        return $get_full_path ? $this->getPath($folder, $name) : $name;
     }
-
 
     /**
      *  EXAMPLE url:
@@ -88,11 +90,16 @@ trait UploadFile
     */
     protected function checkFolderIsExists($folder)
     {
-        $path =  public_path("uploads/$folder/");
+        $path =  public_path($this->getPath($folder));
 
         if (!File::exists($path))
             File::makeDirectory($path, 0777, true);
 
         return $path;
+    }
+
+    protected function getPath($folder, $file_name = '')
+    {
+        return "uploads/$folder/$file_name";
     }
 }

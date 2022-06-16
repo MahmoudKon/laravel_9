@@ -15,17 +15,18 @@ class ContentTypeSeeder extends Seeder
     public function run()
     {
         $types = [
-            'Advanced Text',
-            'Normal Text',
-            'Image',
-            'Audio',
-            'Video',
-            'external video link',
-            'selector',
-            'Time',
-            'Week Days'
+            ['visible_to_content' => true,  'name' => 'Advanced Text'],
+            ['visible_to_content' => true,  'name' => 'Normal Text'],
+            ['visible_to_content' => true,  'name' => 'Image'],
+            ['visible_to_content' => true,  'name' => 'Audio'],
+            ['visible_to_content' => true,  'name' => 'Video'],
+            ['visible_to_content' => true,  'name' => 'external video link'],
+            ['visible_to_content' => false, 'name' => 'selector'],
+            ['visible_to_content' => false, 'name' => 'Time'],
+            ['visible_to_content' => false, 'name' => 'Week Days'],
+            ['visible_to_content' => false, 'name' => 'File'],
         ];
 
-        foreach ($types as $type) ContentType::firstOrCreate(['name' => $type], ['name' => $type]);
+        foreach ($types as $type) ContentType::firstOrCreate(['name' => $type['name']], $type);
     }
 }

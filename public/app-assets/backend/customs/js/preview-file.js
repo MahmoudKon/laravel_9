@@ -16,17 +16,18 @@ function previewFile(file) {
 $('body').on('click', '.preview-modal-image', function() {
     let ele = $('#modal-view-image');
     let img = $(this);
-    ele.slideUp(300, function() {
+    ele.slideUp(500, function() {
         ele.find('img').attr('src', img.attr('src')).attr('alt', img.attr('src').split('/').at(-1));
-        ele.slideDown(300);
+        ele.slideDown(500);
     });
 });
 
-$('#modal-view-image button[data-close]').click(function (e) {
-    $('#modal-view-image').slideUp(300);
+$('#modal-view-image button[data-close], #modal-view-image').click(function (e) {
+    $('#modal-view-image').slideUp(500);
 });
 
 $('#modal-view-image button[data-download]').click(function (e) {
+    e.stopPropagation();
     let image = $('#modal-view-image').find('img').attr('src');
     let image_name = image.split('/').at(-1);
 

@@ -37,6 +37,8 @@ return [
     'result' => 'Result',
     'select-your-location' => 'Select Your Location',
 
+    'visible_to_content' => 'Visible To Content!',
+
 
 
     'parent-category' => 'Parent Category',

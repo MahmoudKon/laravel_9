@@ -61,8 +61,8 @@ class PermissionDataTable extends DataTable
         ->lengthMenu([[5, 10, 20, 25, 30, -1], [5, 10, 20, 25, 30, 'All']])
         ->pageLength(5)
         ->buttons([
-            Button::make()->text('<i class="fa fa-plus"></i> <span class="hidden" data-yajra-href="'.routeHelper('permissions.create').'"></span>')->addClass('btn btn-outline-info show-modal-form '. (canUser("permissions-create") ? "" : "hidden"))->titleAttr(trans('menu.create-row', ['model' => trans('menu.permission')])),
-            Button::make()->text('<i class="fas fa-trash"></i>')->addClass('btn btn-outline-danger multi-delete '. (canUser("permissions-multidelete") ? "" : "hidden"))->titleAttr(trans('buttons.multi-delete')),
+            Button::make()->text('<i class="fa fa-plus"></i> <span class="hidden" data-yajra-href="'.routeHelper('permissions.create').'"></span>')->addClass('btn btn-outline-info show-modal-form '. (canUser("permissions-create") ? "" : "remove-hidden-element"))->titleAttr(trans('menu.create-row', ['model' => trans('menu.permission')])),
+            Button::make()->text('<i class="fas fa-trash"></i>')->addClass('btn btn-outline-danger multi-delete '. (canUser("permissions-multidelete") ? "" : "remove-hidden-element"))->titleAttr(trans('buttons.multi-delete')),
             Button::make('pageLength')->text('<i class="fa fa-sort-numeric-up"></i>')->addClass('btn btn-outline-light page-length')->titleAttr(trans('buttons.page-length'))
         ])
         ->responsive(true)

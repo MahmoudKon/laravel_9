@@ -11,9 +11,7 @@
                 <div class="dropdown-divider"></div>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST">
                     @csrf
-                    <button type="submit" class="d-block w-100 btn btn-danger text-center">
-                        <i class="ft-power"></i> @lang('menu.logout')
-                    </button>
+                    <button type="submit" class="d-block w-100 btn btn-danger text-center" data-toggle="tooltip" title="@lang('menu.logout')"><i class="ft-power"></i></button>
                 </form>
             </li>
             {{-- END LOGOUT LINK --}}

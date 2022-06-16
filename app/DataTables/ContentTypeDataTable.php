@@ -19,9 +19,22 @@ class ContentTypeDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
+            ->editColumn('visible_to_content', function(ContentType $contentType) {
+                $text = "<form method='post' action='".routeHelper('content_types.visible.toggle', $contentType->id)."' class='submit-form'> <input type='hidden' name='_token' value='".csrf_token()."'>";
+                if ($contentType->visible_to_content) {
+                    $text .= "<button type='submit' class='btn btn-sm btn-primary'><i class='fa fa-eye'></i> Visible</button>";
+                } else {
+                    $text .= "<button type='submit' class='btn btn-sm btn-warning'><i class='fa fa-eye-slash'></i> Hidden</button>";
+                }
+                return "$text </form>";
+            })
+            ->filterColumn('visible_to_content', function ($query, $keywords) {
+                $check = stripos('visible', $keywords) !== false ? true : false;
+                return $query->where('visible_to_content', $check);
+            })
             ->addColumn('check', 'backend.includes.tables.checkbox')
             ->editColumn('action', function(ContentType $contentType) {return view('backend.includes.buttons.table-buttons', ['id' => $contentType->id])->render();})
-            ->rawColumns(['action', 'check']);
+            ->rawColumns(['action', 'check', 'visible_to_content']);
     }
 
     /**
@@ -51,8 +64,8 @@ class ContentTypeDataTable extends DataTable
             ->lengthMenu([[5, 10, 20, 25, 30, -1], [5, 10, 20, 25, 30, 'All']])
             ->pageLength(10)
             ->buttons([
-                Button::make()->text('<i class="fa fa-plus"></i> <span class="hidden" data-yajra-href="'.routeHelper('content_types.create').'"></span>')->addClass('btn btn-outline-info show-modal-form '. (canUser("content_types-create") ? "" : "hidden"))->titleAttr(trans('menu.create-row', ['model' => trans('menu.content_type')])),
-                Button::make()->text('<i class="fas fa-trash"></i>')->addClass('btn btn-outline-danger multi-delete '. (canUser("content_types-multidelete") ? "" : "hidden"))->titleAttr(trans('buttons.multi-delete')),
+                Button::make()->text('<i class="fa fa-plus"></i> <span class="hidden" data-yajra-href="'.routeHelper('content_types.create').'"></span>')->addClass('btn btn-outline-info show-modal-form '. (canUser("content_types-create") ? "" : "remove-hidden-element"))->titleAttr(trans('menu.create-row', ['model' => trans('menu.content_type')])),
+                Button::make()->text('<i class="fas fa-trash"></i>')->addClass('btn btn-outline-danger multi-delete '. (canUser("content_types-multidelete") ? "" : "remove-hidden-element"))->titleAttr(trans('buttons.multi-delete')),
                 Button::make('pageLength')->text('<i class="fa fa-sort-numeric-up"></i>')->addClass('btn btn-outline-light page-length')->titleAttr(trans('buttons.page-length'))
             ])
             ->responsive(true)
@@ -82,6 +95,7 @@ class ContentTypeDataTable extends DataTable
             Column::make('id')->hidden(),
             Column::make('check')->title('<label class="skin skin-square"><input data-color="red" type="checkbox" class="switchery" id="check-all"></label>')->exportable(false)->printable(false)->orderable(false)->searchable(false)->width(15)->addClass('text-center')->footer(trans('buttons.delete')),
             Column::make('name')->title(trans('inputs.name')),
+            Column::make('visible_to_content')->title(trans('inputs.visible_to_content')),
             Column::computed('action')->exportable(false)->printable(false)->width(75)->addClass('text-center')->title(trans('inputs.action'))->footer(trans('inputs.action')),
         ];
     }

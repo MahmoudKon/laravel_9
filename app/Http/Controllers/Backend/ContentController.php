@@ -45,7 +45,7 @@ class ContentController extends BackendController
     public function append()
     {
         return [
-            'types' => ContentType::pluck('name', 'id'),
+            'types' => ContentType::where('visible_to_content', true)->pluck('name', 'id'),
             'categories' => Category::when(request()->category, function($query) {
                 return $query->where('id', request()->category);
             })->pluck('name', 'id')

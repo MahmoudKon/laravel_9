@@ -10,7 +10,7 @@
         <title>@yield('title')</title>
 
         <link rel="stylesheet" type="text/css" href="{{ assetHelper('css/bootstrap.min.css') }}">
-        <link rel="stylesheet" type="text/css" href="{{ assetHelper('css/fontawesome-all.min.css.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ assetHelper('css/fontawesome-all.min.css') }}">
 
         <style>
             /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
@@ -80,9 +80,11 @@
                 }
             }
         </style>
+
+        <link rel="stylesheet" type="text/css" media="all" href="{{ assetHelper('customs/css/error_page.css') }}" />
     </head>
-    <body class="antialiased">
-        <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center sm:pt-0">
+    <body>
+        {{-- <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center sm:pt-0">
             <div class="max-w-xl mx-auto sm:px-6 lg:px-8">
                 <div class="flex items-center pt-8 sm:justify-start sm:pt-0">
 
@@ -108,6 +110,16 @@
                     </div>
                 </div>
             </div>
+        </div> --}}
+
+        <div id="body">
+            <h1 class="shadow">{{ $exception->getMessage() ?: 'This Page Not Found' }}</h1>
+            <section class="error-container">
+                <span class="four"><span class="screen-reader-text">4</span></span>
+                <span class="zero"><span class="screen-reader-text">0</span></span>
+                <span class="four"><span class="screen-reader-text">4</span></span>
+            </section>
+            <p class="zoom-area"> Back To <a href="{{ routeHelper('/') }}" class="btn btn-sm btn-primary"><i class="fa fa-home"></i> Home</a></p>
         </div>
     </body>
 </html>

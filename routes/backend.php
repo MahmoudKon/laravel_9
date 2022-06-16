@@ -3,11 +3,13 @@
 use Illuminate\Support\Facades\Route;
 
 Route::group([
-    'prefix' => str_replace('.', '', ROUTE_PREFIX),
-    'middleware' => ['localeSessionRedirect', 'localizationRedirect', 'localeViewPath', 'auth']
+    'prefix' => ROUTE_PREFIX_WITHOUT_DOT,
+    'middleware' => ['auth', 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath']
 ], function () {
 
     Route::get('/','HomeController@index')->name('/');
+    Route::post('read/notifications/{id?}', 'NotificationController@readNotification')->name('read.notifications');
+    Route::get('file-manager', 'FileManagerController@index')->name('file.manager');
 
     Route::controller('RouteController')->group(function () {
         Route::get('routes','index')->name('routes.index');
@@ -18,6 +20,7 @@ Route::group([
         Route::get('routes/assign-roles','assign')->name('routes.assign');
         Route::post('routes/assign-roles','assignRoles')->name('routes.assign-roles');
     });
+
 
     Route::resource('users','UserController');
     Route::controller('UserController')->group(function () {
@@ -30,6 +33,7 @@ Route::group([
         Route::get('departments/{department}/users/create','create')->name('departments.users.create');
     });
 
+
     Route::controller('ProfileController')->group(function () {
         Route::get('profile', 'index')->name('profile.index');
         Route::put('profile/info', 'info')->name('profile.info');
@@ -38,6 +42,7 @@ Route::group([
         Route::put('profile/roles', 'roles')->name('profile.roles');
         Route::put('profile/permissions', 'permissions')->name('profile.permissions');
     });
+
 
     Route::resource('departments','DepartmentController');
     Route::post('departments/multidelete', 'DepartmentController@multidelete')->name('departments.multidelete');
@@ -50,6 +55,7 @@ Route::group([
         Route::post('roles/get/permissions', 'getPermissions')->name('roles.permissions');
         Route::post('roles/multidelete', 'multidelete')->name('roles.multidelete');
     });
+
 
     Route::resource('permissions','PermissionController');
     Route::post('permissions/multidelete', 'PermissionController@multidelete')->name('permissions.multidelete');
@@ -83,7 +89,7 @@ Route::group([
 
     Route::resource('content_types','ContentTypeController');
     Route::post('content_types/multidelete', 'ContentTypeController@multidelete')->name('content_types.multidelete');
-
+    Route::post('content_types/visible/toggle/{content_type}', 'ContentTypeController@toggleVisible')->name('content_types.visible.toggle');
 
     Route::resource('contents','ContentController');
     Route::controller('ContentController')->group(function () {
@@ -110,7 +116,13 @@ Route::group([
     });
 
 
-    Route::post('read/notifications/{id?}', 'NotificationController@readNotification')->name('read.notifications');
-    Route::get('image-cropper', 'ImageCropperController@index')->name('image.cropper');
-    Route::get('file-manager', 'FileManagerController@index')->name('file.manager');
+    Route::controller('ImageToolController')->group(function () {
+        Route::get('image-cropper', 'imageCrop')->name('image.cropper');
+        Route::get('image-quality', 'ChangeQuality')->name('image.quality');
+    });
+
+
+    Route::resource('clients','ClientController');
+    Route::post('clients/multidelete', 'ClientController@multidelete')->name('clients.multidelete');
 });
+

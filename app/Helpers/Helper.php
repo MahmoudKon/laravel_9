@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Route;
+use Carbon\Carbon;
 use Illuminate\Support\Str;
 
 /**
@@ -122,7 +123,19 @@ function activeMenu(string|null $menu_route, $func = null, string $active_class 
  */
 function canUser($permission) :bool
 {
+    return false;
     return auth()->user()->hasRole("super admin")
             || in_array($permission, auth()->user()->getAllPermissions()->pluck('name')->toArray())
             ? true : false;
+}
+
+function setting(string $key, $default = null)
+{
+    return \App\Models\Setting::where('key', $key)->first()->value ?? $default;
+}
+
+function timeReFormatting($time, $format = 'H:i:s', $included_date = false)
+{
+    $date = $included_date ? $time : date('Y-m-d'). " $time";
+    return $time ? Carbon::parse($date)->format($format) : '';
 }

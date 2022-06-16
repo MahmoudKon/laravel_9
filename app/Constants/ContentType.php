@@ -13,6 +13,7 @@ class ContentType {
     const AUDIO         = 4;
     const VIDEO         = 5;
     const EXTERNAL_LINK = 6;
+    const FILE          = 10;
 
     public static function viewHandler(int $type_id) :string
     {
@@ -98,8 +99,13 @@ class ContentType {
                 break;
 
             case self::IMAGE:
+                [$width, $height] = getimagesize($request['value']);
+                $response = $this->uploadImage($request['value'], 'contents', $width, $height);
+                break;
+
             case self::AUDIO:
-                $response['data'] = $this->uploadImage($request['data'], 'contents');
+            case self::FILE:
+                $response = $this->uploadImage($request['value'], 'contents');
                 break;
 
             case self::VIDEO:

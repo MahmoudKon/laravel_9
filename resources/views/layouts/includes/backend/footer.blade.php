@@ -62,7 +62,9 @@
             if ($.trim($(this).find('.menu-content').text()).length == 0) $(this).remove();
         });
 
-        $(`li[data-route="{{ request()->route()->action['as'] }}"]`).addClass('active').siblings().removeClass('adctive');
+        setInterval(function() { $('body').find('.remove-hidden-element').remove(); }, 1000);
+
+        $(`li[data-route="{{ request()->route()->action['as'] }}"]`).addClass('active').closest('.has-sub').addClass('active');
     });
 </script>
 

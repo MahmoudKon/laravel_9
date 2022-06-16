@@ -57,10 +57,10 @@ class RouteDataTable extends DataTable
         ->lengthMenu([[5, 10, 20, 25, 30, -1], [5, 10, 20, 25, 30, 'All']])
         ->pageLength(5)
         ->buttons([
-            Button::make()->text('<i class="fa fa-link"></i>')->addClass('btn btn-outline-info '. (canUser("aggregators-create") ? "" : "hidden"))->action("window.location.href = " . '"' . routeHelper('routes.assign') . '"')->titleAttr(trans('menu.assign-roles')),
+            Button::make()->text('<i class="fa fa-link"></i>')->addClass('btn btn-outline-info '. (canUser("aggregators-create") ? "" : "remove-hidden-element"))->action("window.location.href = " . '"' . routeHelper('routes.assign') . '"')->titleAttr(trans('menu.assign-roles')),
             Button::make()->text('<i class="fa fa-download"></i>')->addClass('btn btn-outline-primary')->action("window.location.href = " . '"' . routeHelper('routes.download'). '"')->titleAttr('Download Routes File'),
             Button::make()->text('<i class="fa fa-rotate"></i>')->addClass('btn btn-outline-success')->action("window.location.href = " . '"' . routeHelper('routes.sync'). '"')->titleAttr('Sync Routes'),
-            Button::make('pageLength')->text('<i class="fa fa-sort-numeric-up"></i>')->addClass('btn btn-outline-light page-length '. (canUser("aggregators-create") ? "" : "hidden"))->titleAttr(trans('buttons.page-length')),
+            Button::make('pageLength')->text('<i class="fa fa-sort-numeric-up"></i>')->addClass('btn btn-outline-light page-length '. (canUser("aggregators-create") ? "" : "remove-hidden-element"))->titleAttr(trans('buttons.page-length')),
         ])
         ->responsive(true)
         ->parameters([

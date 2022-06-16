@@ -15,6 +15,7 @@ return [
 
     // IMAGE CROPPER
     'image-cropper' => 'Image Cropper',
+    'image-quality' => 'Image Quality',
 
     // FILE MANAGER
     'file-manager' => 'File Manager',

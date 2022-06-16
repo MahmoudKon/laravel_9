@@ -17,6 +17,8 @@ class SettingType {
     const SELECTOR      = 7;
     const TIME          = 8;
     const WEEKEND_DAYS  = 9;
+    const FILE          = 10;
+    const PATH  = "uploads/settings/";
 
     public static function viewHandler(int $type_id) :string
     {
@@ -57,6 +59,10 @@ class SettingType {
             case self::WEEKEND_DAYS:
                 $view_path = 'backend.settings.inputs.weekend_days';
                 break;
+
+            case self::FILE:
+                $view_path = 'backend.settings.inputs.file';
+                break;
         }
         return $view_path;
     }
@@ -71,11 +77,11 @@ class SettingType {
                 break;
 
             case self::IMAGE:
-                $validations["value"] = 'required|image|mimes:png,jpg,jpeg';
+                $validations["value"] = 'required_without:id|image|mimes:png,jpg,jpeg';
                 break;
 
             case self::AUDIO:
-                $validations['value'] = 'required_without:id|mimes:mp3';
+                $validations['value'] = 'required_without:id|mimes:mp3,wav';
                 break;
 
             case self::VIDEO:
@@ -98,6 +104,10 @@ class SettingType {
                 $validations['value'] = 'required|array';
                 $validations['value.*'] = 'required|between:0,6';
                 break;
+
+            case self::FILE:
+                $validations['value'] = 'required_without:id|file|mimes:xlsx,csv,xls,pdf,doc,docx,jpeg,png';
+                break;
         }
         return $validations;
     }
@@ -115,33 +125,18 @@ class SettingType {
                 break;
 
             case self::IMAGE:
+                [$width, $height] = getimagesize($request['value']);
+                $response = $this->uploadImage($request['value'], 'settings', $width, $height, true);
+                break;
+
             case self::AUDIO:
             case self::VIDEO:
-                $response = $this->uploadImage($request['value'], 'settings', true);
+            case self::FILE:
+                $response = $this->uploadImage($request['value'], 'settings', NUll, NULL, true);
                 break;
 
             case self::WEEKEND_DAYS:
                 $response = implode(',', $request['value']);
-                break;
-        }
-
-        return $response;
-    }
-
-    public static function dataHandler(int $type_id, $data)
-    {
-        $response = '';
-        switch ($type_id) {
-            case self::ADVANCED_TEXT:
-            case self::NORMAL_TEXT:
-            case self::EXTERNAL_LINK:
-                $response = $data;
-                break;
-
-            case self::IMAGE:
-            case self::AUDIO:
-            case self::VIDEO:
-                $response = "uploads/contents/$data";
                 break;
         }
 
@@ -155,10 +150,9 @@ class SettingType {
             case self::ADVANCED_TEXT:
             case self::EXTERNAL_LINK:
             case self::NORMAL_TEXT:
-            case self::TIME:
                 $view_path = $value;
                 break;
-            
+
             case self::SELECTOR:
                 $view_path = $value ? "TURE" : "FALSE";
                 break;
@@ -166,6 +160,10 @@ class SettingType {
             case self::WEEKEND_DAYS:
                 foreach (explode(',', $value) as $day)
                     $view_path .= Carbon::getDays()[$day].", ";
+                break;
+
+            case self::TIME:
+                    $view_path = timeReFormatting($value, 'h:i A');
                 break;
 
             case self::IMAGE:
@@ -179,7 +177,12 @@ class SettingType {
             case self::VIDEO:
                 $view_path = view('backend.includes.content_types.video', ['video' => $value])->render();
                 break;
+
+            case self::FILE:
+                $view_path = view('backend.includes.content_types.file', ['file' => $value])->render();
+                break;
         }
+
         return $view_path;
     }
 }

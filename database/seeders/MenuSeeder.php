@@ -18,7 +18,7 @@ class MenuSeeder extends Seeder
             1 => [
                 'name' => ["en" => "Dashboard", "ar" => "لوحة التحكم"],
                 'route' => "/",
-                'icon' => "fa fa-home",
+                'icon' => "fa fa-tachometer",
                 'parent_id' => null
             ],
             2 => [
@@ -40,8 +40,8 @@ class MenuSeeder extends Seeder
                 'parent_id' => 2
             ],
             5 => [
-                'name' => ["en" => "Image Cropper", "ar" => "إقتصاص الصور"],
-                'route' => "image.cropper",
+                'name' => ["en" => "Image Tools", "ar" => "أدوات الصور"],
+                'route' => null,
                 'icon' => "fa fa-image",
                 'parent_id' => 2
             ],
@@ -145,7 +145,7 @@ class MenuSeeder extends Seeder
                 'name' => ["en" => "Content Types", "ar" =>"أنواع المحتوي"],
                 'route' => "content_types.index",
                 'icon' => "fa fa-folder",
-                'parent_id' => 21
+                'parent_id' => 2
             ],
             23 => [
                 'name' => ["en" => "List Contents", "ar" => "عرض المحتوي"],
@@ -182,6 +182,19 @@ class MenuSeeder extends Seeder
                 'route' => "file.manager",
                 'icon' => "fa fa-folder",
                 'parent_id' => 2
+            ],
+            29 => [
+                'name' => ["en" => "Image Quality", "ar" => "جودة الصورة"],
+                'route' => "image.cropper",
+                'route' => "image.quality",
+                'icon' => "fa fa-paint-brush",
+                'parent_id' => 5
+            ],
+            30 => [
+                'name' => ["en" => "image-cropper", "ar" => "إقتصاص الصور"],
+                'route' => "image.cropper",
+                'icon' => "fa fa-crop",
+                'parent_id' => 5
             ],
         ];
 

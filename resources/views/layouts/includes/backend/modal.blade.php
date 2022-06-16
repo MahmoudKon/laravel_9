@@ -7,11 +7,11 @@
 </div>
 
 <div id="modal-view-image">
-    <button class="btn btn-sm btn-glow square btn-warning" data-close data-toggle="tooltip" title="Close Preview">
+    <button class="btn btn-sm btn-glow square btn-warning" data-close data-toggle="tooltip" data-placement="right" title="Close Preview">
         <b> <i class="fa fa-times"></i> </b>
     </button>
 
-    <button class="btn btn-sm btn-glow square btn-primary" data-download data-toggle="tooltip" title="Donwload Image">
+    <button class="btn btn-sm btn-glow square btn-primary" data-download data-toggle="tooltip" data-placement="left" title="Donwload Image">
         <b> <i class="fa fa-download"></i> </b>
     </button>
 

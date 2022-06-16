@@ -37,6 +37,8 @@ return [
     'result' => 'النتيجة',
     'select-your-location' => 'إختر المنطقة',
 
+    'visible_to_content' => '!مرئي للمحتوى',
+
 
     'parent-category' => 'القسم الأساسي',
     'sub-categories' => 'الأقسام الفرعية',

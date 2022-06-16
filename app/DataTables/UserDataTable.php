@@ -62,17 +62,17 @@ class UserDataTable extends DataTable
         ->lengthMenu([[5, 10, 20, 25, 30, -1], [5, 10, 20, 25, 30, 'All']])
         ->pageLength(5)
         ->buttons([
-            Button::make()->text('<i class="fa fa-plus"></i>')->addClass('btn btn-outline-info '. (canUser("users-create") ? "" : "hidden"))->action("window.location.href = window.location.href+'/create'")->titleAttr(trans('menu.create-row', ['model' => trans('menu.user')])),
-            Button::make()->text('<i class="fas fa-trash"></i>')->addClass('btn btn-outline-danger multi-delete '. (canUser("users-multidelete") ? "" : "hidden"))->titleAttr(trans('buttons.multi-delete')),
+            Button::make()->text('<i class="fa fa-plus"></i>')->addClass('btn btn-outline-info '. (canUser("users-create") ? "" : "remove-hidden-element"))->action("window.location.href = window.location.href+'/create'")->titleAttr(trans('menu.create-row', ['model' => trans('menu.user')])),
+            Button::make()->text('<i class="fas fa-trash"></i>')->addClass('btn btn-outline-danger multi-delete '. (canUser("users-multidelete") ? "" : "remove-hidden-element"))->titleAttr(trans('buttons.multi-delete')),
 
             Button::make()->text('<i class="fas fa-cloud-download"></i>')
             ->action("window.location.href = '". routeHelper('users.excel.export') ."'")
-            ->addClass('btn btn-outline-info '. (canUser("users-export") ? "" : "hidden"))
+            ->addClass('btn btn-outline-info '. (canUser("users-export") ? "" : "remove-hidden-element"))
             ->titleAttr(trans('buttons.export-excel')),
 
             Button::make()
             ->text('<i class="fa fa-cloud-upload"></i> <span class="hidden" data-yajra-href="'.routeHelper('users.excel.import.form').'"></span>')
-            ->addClass('btn btn-outline-primary show-modal-form'. (canUser("users-import") ? "" : "hidden"))
+            ->addClass('btn btn-outline-primary show-modal-form'. (canUser("users-import") ? "" : "remove-hidden-element"))
             ->titleAttr('Import Users'),
 
             Button::make()

@@ -44,7 +44,7 @@
             <div class="row mb-1">
                 <div class="col-md-9">
                     <div class="img-container overflow-hidden">
-                        <img class="main-demo-image img-fluid" src="{{ url(auth()->user()->image) }}" alt="Picture">
+                        <img class="main-demo-image img-fluid" src="" alt="Select Picture">
                     </div>
                 </div>
                 <div class="col-md-3">

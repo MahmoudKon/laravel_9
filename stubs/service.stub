@@ -3,18 +3,15 @@
 namespace {{ namespace }};
 
 use Exception;
-use Illuminate\Support\Facades\DB;
+use {{ modelNamespace }};
 
 class {{ class }} {
 
     public function handle($request, $id = null)
     {
         try {
-            DB::beginTransaction();
-                // Code
-            DB::commit();
-
-            return 0;
+            $row = {{ model }}::updateOrCreate(['id' => $id], $request);
+            return $row;
         } catch (Exception $e) {
             return $e->getMessage();
         }

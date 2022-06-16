@@ -45,7 +45,7 @@
                                 <div class="card-header border-0 pb-0">
                                     <div class="card-title text-center">
                                         <div class="pb-1">
-                                            <img alt="@lang('menu.logo')" src="{{ asset("uploads/logo/ivas.png") }}">
+                                            <img alt="@lang('menu.logo')" src="{{ asset(setting('logo', 'uploads/logo/ivas.png')) }}" style="max-width: 100px;">
                                         </div>
                                     </div>
                                     <h6 class="card-subtitle line-on-side text-muted text-center font-medium-2 p-0">

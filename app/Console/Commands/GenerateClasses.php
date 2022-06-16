@@ -12,11 +12,18 @@ use Spatie\Permission\Models\Permission;
 class GenerateClasses extends Command
 {
     /**
+     * Created By: Mahmoud
+     * - Laravel Custom Command Console Color [ LINK ]  https://postsrc.com/code-snippets/laravel-custom-command-console-color
+     *
+    **/
+
+
+    /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'generate:classes {model} {routes?}';
+    protected $signature = 'generate:classes {model} {routes?}'; // EX => php artisan generate:classes Client routes
 
     /**
      * The console command description.
@@ -102,11 +109,11 @@ class GenerateClasses extends Command
 
     protected function getPluralName($model)
     {
-        // Separate between each word by underscore
+        // Separate between each capital words by underscore  [EX => SettingType  => Setting_Type]
         $name = preg_replace('/([^A-Z-])([A-Z])/', '$1_$2', $model);
         // Convert string to lower case
         $name = strtolower($name);
-        // Convert string to plural
+        // Convert string to plural [setting_types]
         $name = Str::plural($name);
         return $name;
     }

@@ -27,7 +27,7 @@ class OperatorRequest extends FormRequest
 
         foreach (config('languages') as $lang) {
             $validations["name"] = 'array|min:1';
-            $validations["name.$lang"] = ($lang == app()->getLocale() ? 'required' : 'nullable')."|string|unique:operators,name->$lang,$this->id";
+            $validations["name.$lang"] = ($lang == app()->getLocale() ? 'required' : 'nullable')."|string|unique:operators,name->$lang,".request()->route('operator');
         }
 
         return $validations;

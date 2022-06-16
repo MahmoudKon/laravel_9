@@ -30,7 +30,7 @@ class CategoryRequest extends FormRequest
 
         foreach (config('languages') as $lang) {
             $validations["name"] = 'nullable|array';
-            $validations["name.$lang"] = ($lang == app()->getLocale() ? 'required' : 'nullable')."|string|unique:categories,name->$lang,".$this->id;
+            $validations["name.$lang"] = ($lang == app()->getLocale() ? 'required' : 'nullable')."|string|unique:categories,name->$lang,".request()->route('category');
         }
 
         return $validations;

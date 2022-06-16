@@ -25,7 +25,7 @@ class SettingRequest extends FormRequest
     public function rules()
     {
         $validations = [
-            'key' => 'required|string|unique:settings,key,'.$this->id,
+            'key' => 'required_without:id|string|unique:settings,key,'.request()->route('setting'),
             'system' => 'required|numeric',
             'content_type_id' => 'required|exists:content_types,id',
         ];

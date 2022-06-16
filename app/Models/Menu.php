@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
 use Spatie\Translatable\HasTranslations;
 
 class Menu extends Model
@@ -75,6 +76,11 @@ class Menu extends Model
 
         self::creating(function($model) {
             $model->order = Menu::max('order') + 1;
+            Cache::forget('list_menus');
+        });
+
+        self::updating(function($model) {
+            Cache::forget('list_menus');
         });
     }
 }

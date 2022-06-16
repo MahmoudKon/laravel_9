@@ -5,8 +5,6 @@ namespace App\DataTables;
 use App\Models\Setting;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
 class SettingDataTable extends DataTable
@@ -22,7 +20,7 @@ class SettingDataTable extends DataTable
         return datatables()
             ->eloquent($query)
             ->addColumn('value', function(Setting $setting) {
-                return $setting->Value();
+                return $setting->value();
             })
             ->addColumn('check', 'backend.includes.tables.checkbox')
             ->editColumn('action', 'backend.includes.buttons.table-buttons')
@@ -57,8 +55,8 @@ class SettingDataTable extends DataTable
                     ->pageLength(10)
                     ->fixedHeader(true)
                     ->buttons([
-                        Button::make()->text('<i class="fa fa-plus"></i>')->addClass('btn btn-outline-info '. (canUser("settings-create") ? "" : "hidden"))->action("window.location.href = " . '"' . routeHelper('settings.create'). '"')->titleAttr(trans('menu.create-row', ['model' => trans('menu.setting')])),
-                        Button::make()->text('<i class="fas fa-trash"></i>')->addClass('btn btn-outline-danger multi-delete '. (canUser("settings-multidelete") ? "" : "hidden"))->titleAttr(trans('buttons.multi-delete')),
+                        Button::make()->text('<i class="fa fa-plus"></i>')->addClass('btn btn-outline-info '. (canUser("settings-create") ? "" : "remove-hidden-element"))->action("window.location.href = " . '"' . routeHelper('settings.create'). '"')->titleAttr(trans('menu.create-row', ['model' => trans('menu.setting')])),
+                        Button::make()->text('<i class="fas fa-trash"></i>')->addClass('btn btn-outline-danger multi-delete '. (canUser("settings-multidelete") ? "" : "remove-hidden-element"))->titleAttr(trans('buttons.multi-delete')),
                         Button::make('pageLength')->text('<i class="fa fa-sort-numeric-up"></i>')->addClass('btn btn-outline-light page-length')->titleAttr(trans('buttons.page-length'))
                     ])
                     ->responsive(true)

@@ -24,7 +24,8 @@ class ContentTypeRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|unique:content_types,name,'.$this->id
+            'name' => 'required|string|unique:content_types,name,'.request()->route('content_type'),
+            'visible_to_content' => 'required|boolean',
         ];
     }
 }

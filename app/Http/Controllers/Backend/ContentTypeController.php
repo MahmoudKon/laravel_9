@@ -30,4 +30,12 @@ class ContentTypeController extends BackendController
         if (is_string($content_type)) return $this->throwException($content_type);
         return $this->redirect("Content Type Updated Successfully!");
     }
+
+    public function toggleVisible($id)
+    {
+        $content_type = ContentType::find($id);
+        if (is_null($content_type)) return $this->throwException("This Content Type Not Found!");
+        $content_type->update(['visible_to_content' => ! $content_type->visible_to_content]);
+        return $this->redirect("Content Type Updated His Visible Status Successfully!");
+    }
 }

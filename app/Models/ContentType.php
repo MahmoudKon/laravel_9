@@ -11,7 +11,7 @@ class ContentType extends Model
 
     protected $table = 'content_types';
 
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'visible_to_content'];
 
     public $timestamps = false;
 }

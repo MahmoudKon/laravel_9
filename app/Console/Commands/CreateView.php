@@ -60,6 +60,8 @@ class CreateView extends Command
      *
      * @param string $view
      *
+     * to replace . to / => [backend.clients.form => backend/clients/form]
+     *
      * @return string
      */
     public function viewPath($view)
@@ -88,17 +90,6 @@ class CreateView extends Command
 
     public function appendText()
     {
-        return "
-        @push('style')
-            // CSS Style
-        @endpush
-
-        <div class='row'>
-            // HTML Code
-        </div>
-
-        @push('script')
-            // JS Code
-        @endpush";
+        return "@push('style') \n {{-- CSS Style --}} \n @endpush \n\n <div class='row'> \n {{-- HTML Code --}} \n </div> \n\n @push('script') \n {{-- JS Code --}} \n @endpush";
     }
 }

@@ -24,8 +24,8 @@ class DepartmentRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|string|unique:departments,title,'.$this->id,
-            'email' => 'required|email|unique:departments,email,'.$this->id,
+            'title' => 'required|string|unique:departments,title,'.request()->route('department'),
+            'email' => 'required|email|unique:departments,email,'.request()->route('department'),
             'manager_id' => 'required|numeric|exists:users,id',
             'manager_of_manager_id' => 'nullable|numeric|exists:users,id',
         ];

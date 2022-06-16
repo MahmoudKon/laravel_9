@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Constants\SettingType;
+use Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -19,6 +20,18 @@ class Setting extends Model
     public function contentType()
     {
         return $this->belongsTo(ContentType::class, 'content_type_id', 'id');
+    }
+
+    public function slug()
+    {
+        return $this->key;
+    }
+
+    protected function system(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => "System $value",
+        );
     }
 
     public function value()

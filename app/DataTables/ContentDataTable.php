@@ -74,8 +74,8 @@ class ContentDataTable extends DataTable
                 ->lengthMenu([[5, 10, 20, 25, 30, -1], [5, 10, 20, 25, 30, 'All']])
                 ->pageLength(5)
                 ->buttons([
-                    Button::make()->text('<i class="fa fa-plus"></i>')->addClass('btn btn-outline-info '. (canUser("contents-create") ? "" : "hidden"))->action("window.location.href = " . '"' . routeHelper('contents.create'). '"')->titleAttr(trans('menu.create-row', ['model' => trans('menu.content')])),
-                    Button::make()->text('<i class="fas fa-trash"></i>')->addClass('btn btn-outline-danger multi-delete '. (canUser("contents-multidelete") ? "" : "hidden"))->titleAttr(trans('buttons.multi-delete')),
+                    Button::make()->text('<i class="fa fa-plus"></i>')->addClass('btn btn-outline-info '. (canUser("contents-create") ? "" : "remove-hidden-element"))->action("window.location.href = " . '"' . routeHelper('contents.create'). '"')->titleAttr(trans('menu.create-row', ['model' => trans('menu.content')])),
+                    Button::make()->text('<i class="fas fa-trash"></i>')->addClass('btn btn-outline-danger multi-delete '. (canUser("contents-multidelete") ? "" : "remove-hidden-element"))->titleAttr(trans('buttons.multi-delete')),
                     Button::make('pageLength')->text('<i class="fa fa-sort-numeric-up"></i>')->addClass('btn btn-outline-light page-length')->titleAttr(trans('buttons.page-length'))
                 ])
                 ->responsive(true)

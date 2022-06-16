@@ -9,7 +9,7 @@
                 </li>
                 <li class="nav-item text-center">
                     <a class="navbar-brand py-2" href="{{ routeHelper('/') }}">
-                        <img class="brand-logo" alt="@lang('menu.logo')" src="{{ asset("uploads/logo/ivas.png") }}">
+                        <img class="brand-logo" alt="@lang('menu.logo')" src="{{ asset(setting('logo', 'uploads/logo/ivas.png')) }}">
                         <h3 class="brand-text white">@lang('menu.logo')</h3>
                     </a>
                 </li>

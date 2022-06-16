@@ -27,7 +27,7 @@ class CountryRequest extends FormRequest
 
         foreach (config('languages') as $lang) {
             $validations["name"] = 'array|min:1';
-            $validations["name.$lang"] = ($lang == app()->getLocale() ? 'required' : 'nullable')."|string|unique:countries,name->$lang,".$this->id;
+            $validations["name.$lang"] = ($lang == app()->getLocale() ? 'required' : 'nullable')."|string|unique:countries,name->$lang,".request()->route('country');
         }
 
         return $validations;

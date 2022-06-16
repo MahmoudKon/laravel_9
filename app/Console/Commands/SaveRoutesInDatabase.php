@@ -36,16 +36,40 @@ class SaveRoutesInDatabase extends Command
             if ( !isset($action['controller']) || stripos($action['controller'], 'App\Http\Controllers\Backend') === false )
                 continue;
 
-            $full_controller_path = explode('@', $action['controller']);
+            /**
+             * route details EX:
+             * $action = [
+             *      'uri' => 'en/dashboard/users',
+             *      'controller' => 'App\Http\Controllers\Backend\UserController@index',
+             *      'as'         => 'dashboard.users.index',
+             *      'namespace'  => 'App\Http\Controllers\Backend',
+             *      'prefix      => '/en/dashboard',
+             *  ];
+             *
+             *  */
+
+            // controller namespace with his function
+            [$controller, $function] = explode('@', $action['controller']);
+
+            // the only namespace
             $namespace = $action['namespace'];
-            $controller = trim(str_replace($namespace, '', $full_controller_path[0]), '\\');
-            $function = $full_controller_path[1];
-            $method = implode(',', $route->methods);
-            $middleware = implode(',', $action['middleware']);
+
+            // get the only controller name
+            $controller = trim(str_replace($namespace, '', $controller), '\\'); // App\Http\Controllers\Backend\UserController => UserController
+
+            // get route methods in string
+            $method = implode(',', $route->methods); // ['GET', 'BATCH'] => 'GET,BATCH'
+
+            // get route prefix
+            $prefix = $action['prefix']; // ex: /en/dashboard
+
+            // get url without prefix
+            $uri = str_replace($prefix, ROUTE_PREFIX_WITHOUT_DOT, $route->uri); // remove prefex from  en/dashboard/users => dashboard/users
+
             $route_name = $action['as'] ?? "";
-            $prefix = $action['prefix'];
-            $uri = str_replace($prefix, 'dashboard/', $route->uri);
+            $middleware = implode(',', $action['middleware']);
             $where = implode(',', $action['where']);
+
 
             $route = Route::firstOrCreate([
                 'controller' => $controller,
