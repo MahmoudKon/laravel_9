@@ -123,7 +123,6 @@ function activeMenu(string|null $menu_route, $func = null, string $active_class 
  */
 function canUser($permission) :bool
 {
-    return false;
     return auth()->user()->hasRole("super admin")
             || in_array($permission, auth()->user()->getAllPermissions()->pluck('name')->toArray())
             ? true : false;
