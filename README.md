@@ -14,21 +14,21 @@ cd laravel_9
 
 ## Create key
 ```
-    php artisan key:generate
+php artisan key:generate
 ```
 
 ## Update composer
 ```
-    composer update --ignore-platform-reqs
+composer update --ignore-platform-reqs
 
 ```
 
 ## Generat data
 ```
-    php artisan migrate --seed
+php artisan migrate --seed
 ```
 
 ## Run project
 ```
-    php artisan serve
+php artisan serve
 ```
