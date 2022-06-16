@@ -124,5 +124,13 @@ Route::group([
 
     Route::resource('clients','ClientController');
     Route::post('clients/multidelete', 'ClientController@multidelete')->name('clients.multidelete');
+
+    Route::get('tasks', function() {
+        return back();
+    });
+    Route::get('tasks/users', 'TaskUserController@index')->name('tasks.users');
+    Route::get('tasks/categories', 'TaskCategoryController@index')->name('tasks.categories');
+    Route::get('tasks/posts', 'TaskPostController@index')->name('tasks.posts');
+    Route::get('tasks/comments', 'TaskCommentController@index')->name('tasks.comments');
 });
 

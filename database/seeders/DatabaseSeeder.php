@@ -62,5 +62,9 @@ class DatabaseSeeder extends Seeder
                 $user->roles()->attach(Role::where('id', '!=', 1)->inRandomOrder()->first()->id);
             } catch (Exception $e) {}
         });
+
+
+        $this->call(TaskPostseeder::class);
+        $this->call(TaskCommentSeeder::class);
     }
 }
