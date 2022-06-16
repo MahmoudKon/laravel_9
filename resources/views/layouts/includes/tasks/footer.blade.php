@@ -37,20 +37,29 @@
 
         loadTableData();
 
-        $('.page-link').click(function (e) {
+        $('body').on('click', '.page-link', function (e) {
             e.preventDefault();
             if ($(this).parent().hasClass('active'))
                 return true;
             $(this).parent().addClass('active').siblings().removeClass('active');
-            loadTableData($(this).attr('href'));
+            loadTableData($(this).attr('href'), $('#form-search').serialize());
         });
 
-        function loadTableData(url = null) {
+
+        $('body').on('submit', '#form-search', function(e){
+            e.preventDefault();
+            loadTableData(null, $(this).serialize());
+        });
+
+        function loadTableData(url = null, data = null) {
             url = url ?? window.location.href;
+            let type = data ? "POST" : "GET";
+
             $('.table').addClass('load');
             $.ajax({
                 url: url,
-                type: "GET",
+                type: type,
+                data: data,
                 success: function (data, textStatus, jqXHR) {
                     $('#load-table-data').html(data);
                     $('.table').removeClass('load');

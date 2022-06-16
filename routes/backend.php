@@ -131,6 +131,7 @@ Route::group([
     Route::get('tasks/users', 'TaskUserController@index')->name('tasks.users');
     Route::get('tasks/categories', 'TaskCategoryController@index')->name('tasks.categories');
     Route::get('tasks/posts', 'TaskPostController@index')->name('tasks.posts');
-    Route::get('tasks/comments', 'TaskCommentController@index')->name('tasks.comments');
+    Route::any('tasks/comments', 'TaskCommentController@index')->name('tasks.comments');
+    Route::post('tasks/comments/get/posts', 'TaskCommentController@getPosts')->name('tasks.comments.get.posts');
 });
 

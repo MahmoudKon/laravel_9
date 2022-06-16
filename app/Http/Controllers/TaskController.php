@@ -9,9 +9,9 @@ class TaskController extends Controller
 {
     protected $paginate = 5;
 
-    protected function getPagesCount($table)
+    protected function getPagesCount($table, $count = null)
     {
-        $count = DB::select("SELECT count(`id`) as `count` FROM `$table`")[0]->count;
+        $count = $count ?? DB::select("SELECT count(`id`) as `count` FROM `$table`")[0]->count;
         return ['pages' => ceil($count / $this->paginate), 'count' => $count];
     }
 
