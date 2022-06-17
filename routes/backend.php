@@ -129,6 +129,7 @@ Route::group([
         return back();
     });
     Route::get('tasks/users', 'TaskUserController@index')->name('tasks.users');
+    Route::post('tasks/users/toggle-permissions', 'TaskUserController@togglePermissions')->name('tasks.users.toggle.permissions');
     Route::get('tasks/categories', 'TaskCategoryController@index')->name('tasks.categories');
     Route::get('tasks/posts', 'TaskPostController@index')->name('tasks.posts');
     Route::any('tasks/comments', 'TaskCommentController@index')->name('tasks.comments');

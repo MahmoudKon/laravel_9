@@ -2,6 +2,35 @@
     <div class="main-menu-content">
         <ul class="navigation navigation-main mb-5 pb-5" id="main-menu-navigation">
 
+            <li class="nav-item has-sub">
+                <a href="{{ routeHelper('tasks.users') }}">
+                    <i class="fa fa-list"></i> <span class="menu-title">Tasks</span>
+                </a>
+
+                <ul class="menu-content">
+                    <li class="nav-item" data-route="{{ ROUTE_PREFIX."tasks.users" }}">
+                        <a href="{{ routeHelper('tasks.users') }}">
+                            <i class="fa fa-users"></i> <span class="menu-title">Users</span>
+                        </a>
+                    </li>
+                    <li class="nav-item" data-route="{{ ROUTE_PREFIX."tasks.categories" }}">
+                        <a href="{{ routeHelper('tasks.categories') }}">
+                            <i class="fa fa-list"></i> <span class="menu-title">Categories</span>
+                        </a>
+                    </li>
+                    <li class="nav-item" data-route="{{ ROUTE_PREFIX."tasks.posts" }}">
+                        <a href="{{ routeHelper('tasks.posts') }}">
+                            <i class="fa fa-list"></i> <span class="menu-title">Posts</span>
+                        </a>
+                    </li>
+                    <li class="nav-item" data-route="{{ ROUTE_PREFIX."tasks.comments" }}">
+                        <a href="{{ routeHelper('tasks.comments') }}">
+                            <i class="fa fa-list"></i> <span class="menu-title">Comments</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
             @foreach ($list_menus as $row)
                 @include('layouts.includes.backend.sections.list-menu', ['menu' => $row])
             @endforeach

@@ -2,6 +2,7 @@
 
 use App\Models\Route;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 /**
@@ -137,4 +138,10 @@ function timeReFormatting($time, $format = 'H:i:s', $included_date = false)
 {
     $date = $included_date ? $time : date('Y-m-d'). " $time";
     return $time ? Carbon::parse($date)->format($format) : '';
+}
+
+
+function userHasPermission($user_id, $permission_id)
+{
+   return DB::table('task_user_permissions')->where(['user_id' => $user_id, 'task_permission_id' => $permission_id])->count();
 }

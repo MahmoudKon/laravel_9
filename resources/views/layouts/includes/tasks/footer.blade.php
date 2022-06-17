@@ -37,6 +37,24 @@
 
         loadTableData();
 
+        $('body').on('change', '.toggle-permission', function (e) {
+            let user_id = $(this).data('user-id');
+            let permission_id = $(this).data('permission-id');
+            let url = window.location.href+"/toggle-permissions";
+            $.ajax({
+                url: url,
+                type: "post",
+                data: {user_id: user_id, permission_id: permission_id, _token: `{{ csrf_token() }}`},
+                success: function (response, textStatus, jqXHR) {
+                    console.log(response);
+                },
+                error: function(jqXHR) {
+                    console.log(jqXHR);
+                },
+            });
+        });
+
+
         $('body').on('click', '.page-link', function (e) {
             e.preventDefault();
             if ($(this).parent().hasClass('active'))
