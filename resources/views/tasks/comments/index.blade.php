@@ -8,7 +8,11 @@
         </div>
         {{-- START INCLUDE TABLE HEADER --}}
 
-        @include('tasks.comments.search')
+        @can ('search comments')
+            @include('tasks.comments.search')
+        @else
+            <h3>Don't have permission to use search</h3>
+        @endif
 
         <div class="table-responsive">
             <table class="table">

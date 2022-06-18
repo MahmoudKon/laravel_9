@@ -37,6 +37,7 @@ return new class extends Migration
             ['name' => 'list posts'],
             ['name' => 'list comments'],
             ['name' => 'list categories'],
+            ['name' => 'search comments'],
         ]);
 
         Schema::create('task_role_permissions', function (Blueprint $table) {

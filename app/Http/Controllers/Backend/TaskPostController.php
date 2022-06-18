@@ -4,11 +4,14 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 
 class TaskPostController extends TaskController
 {
     public function index()
     {
+        abort_if(Gate::denies('list posts'), 403, 'Don\'t have access');
+
         if (request()->ajax()) {
             $page = request()->page ?? 1;
             $page_first_result = ($page - 1) * $this->paginate;

@@ -4,11 +4,14 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 
 class TaskCommentController extends TaskController
 {
     public function index()
     {
+        abort_if(Gate::denies('list comments'), 403, 'Don\'t have access');
+
         if (request()->ajax()) {
             [$query, $current_page, $pages, $count] = $this->filterRequest();
             $comments = DB::select($query);
